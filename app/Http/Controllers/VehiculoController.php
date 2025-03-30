@@ -23,7 +23,7 @@ class VehiculoController extends Controller
     public function index()
     {
         try {
-            $response = Vehiculo::all();
+            $response = Vehiculo::with('funcionario')->get();
             if ($response) {
                 return response()->json(['result' => $response, 'code' => '200']);
             } else
