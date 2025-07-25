@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class VehiculoController extends Controller
@@ -67,9 +65,17 @@ class VehiculoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $placa)
     {
-        //
+        try {
+            $data = Vehiculo::where("placa", $placa)->with('funcionario')->first();
+            if ($data) {
+                return response()->json(['result' => $data, 'code' => '200']);
+            } else
+                return response()->json(['result' => "No hay registros", 'code' => '204']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'code' => '500']);
+        }
     }
 
     /**
