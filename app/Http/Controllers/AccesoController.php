@@ -54,6 +54,16 @@ class AccesoController extends Controller
                 return response()->json(['error' => $validator->errors(), 'code' => '400']);
             }
 
+            $salida = Acceso::where('placa', $request->placa)->where('fecha_salida', null)->first();
+            
+            if ($salida) {
+                $salida->fecha_salida = $request->fecha_entrada;
+                $salida->foto_salida = $request->foto_entrada;
+
+                $salida->update();
+                return response()->json(['result' => "Dato Actualizado", 'code' => '200']);
+            }
+
             $data = new Acceso();
             $data->fill($request->all());
             if (!$request->visitante == 1) {
