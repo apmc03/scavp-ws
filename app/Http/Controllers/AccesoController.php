@@ -57,8 +57,8 @@ class AccesoController extends Controller
             $salida = Acceso::where('placa', $request->placa)->where('fecha_salida', null)->first();
             
             if ($salida) {
-                $salida->fecha_salida = $request->fecha_entrada;
-                $salida->foto_salida = $request->foto_entrada;
+                $salida->fecha_salida = date('Y-m-d H:i:s');
+                $salida->foto_salida = $request->foto_ingreso;
 
                 $salida->update();
                 return response()->json(['result' => "Dato Actualizado", 'code' => '200']);
