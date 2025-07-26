@@ -60,8 +60,8 @@ class AccesoController extends Controller
                 $data->vehiculo_id = 1;
             }
             $data->fecha_ingreso = date('Y-m-d H:i:s');
-            $data->fecha_salida = "";
-            $data->foto_salida = "";
+            $data->fecha_salida = null;
+            $data->foto_salida = null;
             $data->save();
             return response()->json(['result' => "Dato Registrado", 'code' => '200']);
 

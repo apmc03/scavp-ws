@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string("visitante");
             $table->string("placa");
             $table->string("foto_ingreso");
-            $table->string("foto_salida");
+            $table->string("foto_salida")->nullable();
             $table->timestamp("fecha_ingreso");
-            $table->timestamp("fecha_salida");
+            $table->timestamp("fecha_salida")->nullable();
 
             $table->foreign('vehiculo_id')
                 ->references('vehiculo_id')
