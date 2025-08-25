@@ -21,8 +21,7 @@ class AccesoController extends Controller
     public function index()
     {
         try {
-            $response = Acceso::all()
-            ->orderBy('fecha_ingreso', 'desc')
+            $response = Acceso::orderBy('fecha_ingreso', 'desc')
             ->get();
 
             if ($response) {
