@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('funcionarios', FuncionarioController::class);
     Route::resource('vehiculos', VehiculoController::class);
     Route::resource('accesos', AccesoController::class);
+    Route::post('accesos/actualizar-visitante', [AccesoController::class, 'actualizarVisitante'])->name('actualizar-visitante');
 
     Route::get('generar-token-permanente/{userId}', [UsuarioController::class, 'generarTokenPermanente'])->name('generar-token-permanente');
 });

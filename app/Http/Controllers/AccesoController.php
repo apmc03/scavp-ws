@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Acceso;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AccesoController extends Controller
@@ -23,7 +21,10 @@ class AccesoController extends Controller
     public function index()
     {
         try {
-            $response = Acceso::all();
+            $response = Acceso::all()
+            ->orderBy('fecha_ingreso', 'desc')
+            ->get();
+
             if ($response) {
                 return response()->json(['result' => $response, 'code' => '200']);
             } else
@@ -125,5 +126,30 @@ class AccesoController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function actualizarVisitante(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'acceso_id' => 'required|integer|exists:accesos,acceso_id',
+                'persona' => 'required|string|max:100']);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors(), 'code' => '400']);
+            }
+
+            $data = Acceso::find($request->acceso_id);
+            
+            if ($data) {
+                $data->visitante = $request->persona;
+                $data->update();
+
+                return response()->json(['result' => "Dato Actualizado", 'code' => '200']);
+            } else
+                return response()->json(['result' => "No existe el acceso", 'code' => '204']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage(), 'code' => '500']);
+        }
     }
 }
